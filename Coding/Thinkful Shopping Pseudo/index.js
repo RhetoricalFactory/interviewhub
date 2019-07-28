@@ -1,23 +1,33 @@
 'use strict';
 
 const STORE = [
-  {name: "apples", checked: false},
-  {name: "oranges", checked: false},
-  {name: "milk", checked: true},
-  {name: "bread", checked: false}
+  {id: cuid(), name: "apples", checked: false},
+  {id: cuid(), name: "oranges", checked: false},
+  {id: cuid(), name: "milk", checked: true},
+  {id: cuid(), name: "bread", checked: false}
 ];
 
 
-function generateItemElement(item, itemIndex, template) {
+function generateItemElement(item) {
   return `
-    <li>${item.name}</li>`;
+    <li data-item-id="${item.id}">
+      <span class="shopping-item js-shopping-item ${item.checked ? "shopping-item__checked" : ''}">${item.name}</span>
+      <div class="shopping-item-controls">
+        <button class="shopping-item-toggle js-item-toggle">
+            <span class="button-label">check</span>
+        </button>
+        <button class="shopping-item-delete js-item-delete">
+            <span class="button-label">delete</span>
+        </button>
+      </div>
+    </li>`;
 }
 
 
 function generateShoppingItemsString(shoppingList) {
   console.log("Generating shopping list element");
 
-  const items = shoppingList.map((item, index) => generateItemElement(item, index));
+  const items = shoppingList.map((item) => generateItemElement(item));
   
   return items.join("");
 }
@@ -34,21 +44,30 @@ function renderShoppingList() {
 
 
 function handleNewItemSubmit() {
-  // this function will be responsible for when users add a new shopping list item
+  // When a user presses submit an item is added to the list
+  //we need to listen for when the button is pressed, and when it happens we invoke the HTML code
+  //we wrote in the function generateItemElement which creates a list item (li) in the ul  .shopping-list js-shopping-list
   console.log('`handleNewItemSubmit` ran');
 }
 
 
 function handleItemCheckClicked() {
-  // this function will be responsible for when users click the "check" button on
-  // a shopping list item.
+  // this function will put a strike through the text when users click the "check" button on
+  // a shopping list item. 
+  //It needs to listen for the event, change the value of Checked in the store array
+  // to True or false, and thus implement our CSS code for .shopping-item__checked
+  //some approaches that come to mind include !== or something like that, to turn on 
+  //and off the CSS class
+  //I may also need the class names for the button...(".shopping-item-toggle js-item-toggle")
   console.log('`handleItemCheckClicked` ran');
 }
 
 
 function handleDeleteItemClicked() {
-  // this function will be responsible for when users want to delete a shopping list
-  // item
+  // this function will be remove items from the list when users click the delete buttonwant to delete a shopping list
+  // We'll listen for the event, that the delete button was clicked. 
+  //(button>".shopping-item-delete js-item-delete")
+  //When the user presses the button, the list item clicked (li) will be removed from the list (ul) (".shopping-list js-shopping-list")
   console.log('`handleDeleteItemClicked` ran')
 }
 
